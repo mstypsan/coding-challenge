@@ -1,4 +1,4 @@
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { NestFactory } from '@nestjs/core';
 import { WorkerModule } from './worker.module';
 
@@ -9,7 +9,7 @@ async function bootstrap() {
       options: {
         port: 3001,
       },
-      // Setup communication protocol here
+      transport: Transport.TCP,
     },
   );
   app.listen();
