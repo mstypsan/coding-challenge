@@ -5,9 +5,14 @@ import { Transport } from '@nestjs/microservices';
 
 const initMicroservice = async (app: INestApplication) => {
   app.connectMicroservice({
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      port: 3002,
+      urls: ['amqp://localhost:5672'],
+      queue: 'streams_queue',
+      noAck: false,
+      queueOptions: {
+        durable: false,
+      },
     },
   });
   await app.startAllMicroservices();

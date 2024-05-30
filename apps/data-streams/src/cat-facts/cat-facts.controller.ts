@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
 import { CatFactService } from './cat-facts.service';
 import { CatFact } from './catFact.entity';
 import { CatFactDto } from './catFactDto';
@@ -11,9 +11,16 @@ export class CatFactsController {
   constructor(private readonly catFactService: CatFactService) {}
 
   @EventPattern('cat_data_received')
-  async handleDataReceived(data: CatData) {
+  async handleDataReceived(
+    @Payload() data: CatData,
+    @Ctx() context: RmqContext,
+  ) {
+    // Consider idempotency
     const catFact = new CatFact(data.fact, data.length);
     await this.catFactService.save(catFact);
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+    channel.ack(originalMsg);
   }
 
   @Get()
