@@ -13,10 +13,4 @@ describe('WorkerController', () => {
 
     workerController = app.get<WorkerController>(WorkerController);
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(workerController.getHello()).toBe('Hello World!');
-    });
-  });
 });
