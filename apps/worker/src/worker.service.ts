@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { DataService } from './data-service/data.service';
 
 @Injectable()
 export class WorkerService {
@@ -40,6 +41,7 @@ export class WorkerService {
     let cronJob: CronJob;
     if (!cronJobExists) {
       cronJob = new CronJob(CronExpression.EVERY_5_SECONDS, () => {
+        this.dataService.processData();
       });
       this.schedulerRegistry.addCronJob(this.cronJobName, cronJob);
     } else {
