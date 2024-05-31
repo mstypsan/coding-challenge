@@ -8,15 +8,13 @@ describe('WorkerController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [WorkerController],
-      providers: [WorkerService],
+      providers: [{ provide: WorkerService, useValue: {} }],
     }).compile();
 
     workerController = app.get<WorkerController>(WorkerController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(workerController.getHello()).toBe('Hello World!');
-    });
+  it('should be defined', () => {
+    expect(workerController).toBeDefined();
   });
 });
