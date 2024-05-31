@@ -8,9 +8,13 @@ describe('WorkerController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [WorkerController],
-      providers: [WorkerService],
+      providers: [{ provide: WorkerService, useValue: {} }],
     }).compile();
 
     workerController = app.get<WorkerController>(WorkerController);
+  });
+
+  it('should be defined', () => {
+    expect(workerController).toBeDefined();
   });
 });
