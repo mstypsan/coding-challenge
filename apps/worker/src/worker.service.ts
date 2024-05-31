@@ -40,7 +40,7 @@ export class WorkerService {
 
     let cronJob: CronJob;
     if (!cronJobExists) {
-      cronJob = new CronJob(CronExpression.EVERY_5_SECONDS, () => {
+      cronJob = new CronJob(CronExpression.EVERY_5_MINUTES, () => {
         this.dataService.processData();
       });
       this.schedulerRegistry.addCronJob(this.cronJobName, cronJob);
